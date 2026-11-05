@@ -83,16 +83,17 @@ Por causa dessa ordem, `docker-compose.yml` fica com a baleia, `application.yml`
 
 Todos os ícones têm versão para tema claro e escuro.
 
+## Download
+
+[![Baixar a última versão](https://img.shields.io/github/v/release/EricLps/layer-icons?label=download&style=for-the-badge)](https://github.com/EricLps/layer-icons/releases/latest)
+
+Baixe o arquivo `.zip` da última versão e instale pelo IntelliJ em
+**Settings → Plugins → ⚙ → Install Plugin from Disk...**
+
 ## Instalação
 
-1. Gere o plugin:
-
-   ```bash
-   ./gradlew buildPlugin
-   ```
-
-2. No IntelliJ, abra **Settings → Plugins → ⚙ → Install Plugin from Disk...** e escolha o arquivo `.zip` gerado em `build/distributions/`.
-3. Reinicie o IntelliJ.
+1. No IntelliJ, abra **Settings → Plugins → ⚙ → Install Plugin from Disk...** e escolha o arquivo `.zip` gerado em `build/distributions/`.
+2. Reinicie o IntelliJ.
 
 Se outro plugin de ícones estiver ativo, os dois podem disputar os mesmos arquivos. Nesse caso, desative os ícones do outro plugin.
 
