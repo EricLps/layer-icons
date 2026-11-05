@@ -3,6 +3,7 @@ package org.ericlps;
 import com.intellij.ide.IconProvider;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.InheritanceUtil;
 import com.intellij.ui.LayeredIcon;
@@ -50,6 +51,8 @@ public class LayerIconProvider extends IconProvider {
 
     private static final Icon TEST_BADGE = IconLoader.getIcon("/icons/badge-test.svg", LayerIconProvider.class);
 
+    private static final Icon EXCEPTION_BADGE = IconLoader.getIcon("/icons/badge-exception.svg", LayerIconProvider.class);
+
     private static final Map<String, Icon> SELO_POR_SUFIXO = Map.of(
             "Repository",    REPOSITORY_BADGE,
             "Service",       SERVICE_BADGE,
@@ -63,13 +66,46 @@ public class LayerIconProvider extends IconProvider {
             "Test",          TEST_BADGE
     );
 
+    // ================================================================================================================================================================================================================
+
+    //Icones de pastas
+
+    private static final Icon FOLDER_ICON =
+            IconLoader.getIcon("/icons/folder.svg", LayerIconProvider.class);
+
+    // chaves em minúsculas: a comparação ignora maiúsculas
+    private static final Map<String, Icon> SELO_POR_PASTA = Map.ofEntries(
+            Map.entry("src",        SRC_BADGE),
+            Map.entry("resources",  RESOURCES_BADGE),
+            Map.entry(".idea",      EDITOR_BADGE),
+            Map.entry(".vscode",    EDITOR_BADGE),
+            Map.entry("controller", CONTROLLER_BADGE),
+            Map.entry("service",    SERVICE_BADGE),
+            Map.entry("repository", REPOSITORY_BADGE),
+            Map.entry("dto",        DTO_BADGE),
+            Map.entry("entity",     ENTITY_BADGE),
+            Map.entry("model",      ENTITY_BADGE),
+            Map.entry("config",     CONFIG_BADGE),
+            Map.entry("test",       TEST_BADGE),
+            Map.entry("exception", EXCEPTION_BADGE),
+            Map.entry("exceptions",EXCEPTION_BADGE)
+    );
+
     @Override
     public @Nullable Icon getIcon(@NotNull PsiElement element, int flags) {
 
-        if (!(element instanceof PsiClass psiClass)) {
-            return null;
+        if (element instanceof PsiClass psiClass) {
+            return iconeDeClasse(psiClass);
         }
 
+        if (element instanceof PsiDirectory pasta) {
+            return iconeDePasta(pasta);
+        }
+
+        return null;
+    }
+
+    private Icon iconeDeClasse(PsiClass psiClass) {
         Icon base;
 
         if (psiClass.isEnum()) {
@@ -102,17 +138,21 @@ public class LayerIconProvider extends IconProvider {
         if (nome == null) {
             return base;
         }
-
-        for(Map.Entry<String, Icon> par : SELO_POR_SUFIXO.entrySet()){
-
-            if(nome.endsWith(par.getKey())){
+        for (Map.Entry<String, Icon> par : SELO_POR_SUFIXO.entrySet()) {
+            if (nome.endsWith(par.getKey())) {
                 return new LayeredIcon(base, par.getValue());
             }
-
         }
-
         return base;
+    }
 
+
+    private @Nullable Icon iconeDePasta(PsiDirectory pasta) {
+        Icon selo = SELO_POR_PASTA.get(pasta.getName().toLowerCase());
+        if (selo == null) {
+            return FOLDER_ICON;
+        }
+        return new LayeredIcon(FOLDER_ICON, selo);
     }
 
 }
