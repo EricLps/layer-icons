@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g transform="matrix(0.052 0 0 0.052 -0.95 -0.6)"><mask id="ml" maskUnits="userSpaceOnUse" x="0" y="0" width="340" height="340"><rect width="340" height="340" fill="#fff"/><path d="M114 250C92 205 108 160 152 138C192 118 240 112 276 72C302 140 300 200 252 232C204 262 146 262 114 250Z" fill="#000"/><path d="M118 245C176 234 240 188 272 98C262 178 204 240 118 245Z" fill="#fff"/><circle cx="94" cy="262" r="10" fill="#000"/></mask><circle cx="172" cy="175" r="118" fill="#a6e3a1" mask="url(#ml)"/><path d="M114 250C92 205 108 160 152 138C192 118 240 112 276 72C302 140 300 200 252 232C204 262 146 262 114 250Z" fill="none" stroke="#a6e3a1" stroke-width="13" stroke-linejoin="round"/></g>
+</svg>

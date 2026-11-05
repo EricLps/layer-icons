@@ -1,155 +1,122 @@
-# Layer-icons
+# Layer Icons
 
-[![Twitter Follow](https://img.shields.io/badge/follow-%40JBPlatform-1DA1F2?logo=twitter)](https://twitter.com/JBPlatform)
-[![Developers Forum](https://img.shields.io/badge/JetBrains%20Platform-Join-blue)][jb:forum]
+Plugin de ícones para o IntelliJ IDEA, pensado para projetos Java e Spring, no estilo da paleta [Catppuccin](https://catppuccin.com).
 
-## Overview
+Cada classe ganha um mascote que mostra **o que ela é** (class, interface, record, enum, anotação ou exception) segurando um selo que mostra **qual camada ela representa** (repository, service, controller, DTO, entity, config ou test). Pastas e arquivos comuns de projeto também ganham ícones próprios.
 
-This repository implements an IntelliJ Platform plugin.
+## No IntelliJ
 
-## Demo Functionality
+<!-- Salve o print do IntelliJ em docs/images/intellij.png -->
+![Layer Icons no IntelliJ](docs/images/intellij.png)
 
-The sample plugin adds a `My Tool Window` tool window with a simple functionality of shuffling a random number.
+## Galeria
 
-## Plugin structure
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/gallery-dark.png">
+  <img alt="Galeria de ícones do Layer Icons" src="docs/images/gallery-light.png" width="900">
+</picture>
 
-A generated project contains the following content structure:
+## Como os ícones são escolhidos
+
+### Classes Java
+
+O ícone de uma classe é montado em duas camadas:
+
+1. **Base (o mascote)**: vem da declaração da classe, lida pela PSI do IntelliJ.
+2. **Selo (na mão do mascote)**: vem do sufixo do nome da classe.
+
+| Base | Quando aparece |
+|---|---|
+| Duke azul | `class` |
+| Duke em contorno | `interface` |
+| Duke no cubo de gelo | `record` (imutável) |
+| Dois Dukes | `enum` (conjunto fixo de valores) |
+| Duke na etiqueta | anotação (`@interface`) |
+| Duke caindo | qualquer classe que herda de `Throwable`, mesmo que indiretamente |
+
+| Selo | Sufixo do nome |
+|---|---|
+| Banco de dados | `Repository` |
+| Engrenagem | `Service` |
+| Globo | `Controller` |
+| Envelope | `Dto`, `DTO` |
+| Tabela | `Entity`, `Model` |
+| Controles | `Config`, `Configuration` |
+| Check | `Test` |
+
+Exemplos: `UsuarioRepository` (interface) vira o Duke em contorno segurando o banco de dados; `UsuarioDTO` (record) vira o Duke no cubo de gelo segurando o envelope.
+
+### Pastas
+
+Pastas usam um ícone vazado e recebem um selo quando o nome bate exatamente com uma das camadas (sem diferenciar maiúsculas e minúsculas): `src`, `resources`, `.idea`, `.vscode`, `controller`, `service`, `repository`, `dto`, `entity`, `model`, `config`, `test`, `exception` e `exceptions`.
+
+### Arquivos
+
+As regras são testadas nesta ordem, da mais específica para a mais geral:
+
+1. **Nome exato**
+2. **Prefixo** (configurações do Spring e arquivos `.env`)
+3. **Extensão**
+
+| Ícone | Arquivos |
+|---|---|
+| Elefante | `build.gradle(.kts)`, `settings.gradle(.kts)`, `gradle.properties`, `gradle-wrapper.properties`, `gradlew`, `gradlew.bat` |
+| Coruja | `pom.xml`, `mvnw`, `mvnw.cmd`, `maven-wrapper.properties` |
+| Folha do Spring | `application*` e `bootstrap*` com extensão `.properties`, `.yml` ou `.yaml` |
+| Baleia | `Dockerfile`, `.dockerignore`, `docker-compose.yml`, `compose.yml` e `.dockerfile` |
+| Chave | `.env` e `.env.*` |
+| Balança | `LICENSE`, `LICENSE.md`, `LICENSE.txt` |
+| Git riscado | `.gitignore` |
+| YAML | `.yml`, `.yaml` |
+| Cilindro | `.sql` |
+| `{ }` | `.json` |
+| `</>` | `.xml` |
+| Controles | `.properties` |
+| Quebra-cabeça | `.iml` |
+| Pote | `.jar`, `.war` |
+| Folha com título | `.md`, `.markdown` |
+| Folha simples | `.txt`, `.log` |
+| Caveira com asas | `.bat`, `.cmd` |
+
+Por causa dessa ordem, `docker-compose.yml` fica com a baleia, `application.yml` fica com a folha do Spring e qualquer outro `.yml` fica com o ícone do YAML.
+
+Todos os ícones têm versão para tema claro e escuro.
+
+## Instalação
+
+1. Gere o plugin:
+
+   ```bash
+   ./gradlew buildPlugin
+   ```
+
+2. No IntelliJ, abra **Settings → Plugins → ⚙ → Install Plugin from Disk...** e escolha o arquivo `.zip` gerado em `build/distributions/`.
+3. Reinicie o IntelliJ.
+
+Se outro plugin de ícones estiver ativo, os dois podem disputar os mesmos arquivos. Nesse caso, desative os ícones do outro plugin.
+
+## Desenvolvimento
+
+Requisitos: JDK 21.
+
+Para abrir um IntelliJ de teste com o plugin instalado:
+
+```bash
+./gradlew runIde
+```
+
+Ou use a configuração **Run IDE with Plugin** já incluída no projeto.
 
 ```
-.
-├── .run/                   Predefined Run/Debug Configurations
-├── gradle
-│   ├── wrapper/            Gradle Wrapper
-│   ├── libs.versions.toml  Version catalog
-├── src                     Plugin sources
-│   └── main
-│       ├── kotlin/         Kotlin production sources
-│       └── resources/      Plugin resources
-│           ├── META-INF/   Plugin configuration file and logo
-│           └── messages/   Message bundles
-├── .gitignore              Git ignoring rules
-├── build.gradle.kts        Gradle build configuration
-├── gradle.properties       Gradle configuration properties
-├── gradlew                 *nix Gradle Wrapper script
-├── gradlew.bat             Windows Gradle Wrapper script
-├── README.md               This file
-└── settings.gradle.kts     Gradle project settings
+src/main
+├── java/org/ericlps/LayerIconProvider.java   Lógica de escolha dos ícones
+└── resources
+    ├── META-INF/plugin.xml                   Registro do plugin
+    └── icons/                                Ícones em SVG (nome.svg e nome_dark.svg)
 ```
 
-In addition to the configuration files, the most crucial part is the `src` directory, which contains our implementation
-and the manifest for our plugin – [plugin.xml][file:plugin.xml].
+## Créditos
 
-> [!NOTE]
-> To use Java in your plugin, create the `/src/main/java` directory.
-
-The plugin logo is placed in `src/main/resources/META-INF/pluginIcon.svg`.
-See [Plugin Logo][docs:logo] for more information and logo requirements.
-
-## Build script
-
-The [build.gradle.kts][file:build.gradle.kts] is the core of the project definition.
-It applies three Gradle plugins:
-
-| Plugin                            | Description                                                                      |
-|-----------------------------------|----------------------------------------------------------------------------------|
-| `org.jetbrains.kotlin.jvm`        | Adds Kotlin support                                                              |
-| `org.jetbrains.changelog`         | Simplifies patching the [CHANGELOG.md][file:CHANGELOG.md] file                   |
-| `org.jetbrains.intellij.platform` | The [IntelliJ Platform Gradle Plugin][docs:intellij-platform-gradle-plugin-docs] |
-
-The `intellijPlatform` dependencies block selects the IDE to compile against:
-
-```kotlin
-intellijIdea("2025.3.6.1")
-```
-
-See [Target Versions][docs:target-version] for more information.
-
-The `intellijPlatform` dependencies block also contains a dependency on the platform testing framework:
-
-```kotlin
-testFramework(TestFrameworkType.Platform)
-```
-
-See [Testing][docs:testing] for more information
-
-## Plugin configuration file
-
-The plugin configuration file is a [plugin.xml][file:plugin.xml] file located in the `src/main/resources/META-INF`
-directory.
-It provides general information about the plugin, its dependencies, extensions, and listeners.
-
-You can read more about this file in the [Plugin Configuration File][docs:plugin.xml] section of our documentation.
-
-### Plugin ID and name
-
-Generated plugin ID and name may require adjustment.
-
-These values are generated based on _Group ID_ and _Artifact ID_ provided in the IDE Plugin wizard.
-It is recommended to review `<id>` and `<name>` elements in the plugin.xml file, and adjust them if needed.
-
-Please note that Gradle properties `rootProject.name` and `project.group` don't need to match the `<id>` and `<name>`
-elements.
-There is no IntelliJ Platform-related reason they should as they serve different functions.
-
-## Predefined Run/Debug configurations
-
-Within the default project structure, there is a `.run` directory provided containing predefined *Run/Debug
-configurations* that expose corresponding Gradle tasks:
-
-| Configuration name  | Description                                                                                                                                                                           |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Run IDE with Plugin | Runs [`:runIde`][docs:intellij-platform-gradle-plugin-runIde] IntelliJ Platform Gradle Plugin task. Use the *Debug* icon for plugin debugging.                                        |
-| Run Tests           | Runs [`:check`][gradle:lifecycle-tasks] Gradle task.                                                                                                                                  |
-| Run Verifications   | Runs [`:verifyPlugin`][docs:intellij-platform-gradle-plugin-verifyPlugin] IntelliJ Platform Gradle Plugin task to check the plugin compatibility against the specified IntelliJ IDEs. |
-
-> [!NOTE]
-> You can find the logs from the running task in the `idea.log` tab.
-
-## Publishing the plugin
-
-> [!TIP]
-> Make sure to follow all guidelines listed in [Publishing a Plugin][docs:publishing] to follow all recommended and
-required steps.
-
-Releasing a plugin to [JetBrains Marketplace](https://plugins.jetbrains.com) is a straightforward operation that uses
-the `publishPlugin` Gradle task provided by
-the [intellij-platform-gradle-plugin][docs:intellij-platform-gradle-plugin-docs].
-
-You can also upload the plugin to the [JetBrains Plugin Repository](https://plugins.jetbrains.com/plugin/upload)
-manually via UI.
-
-## Useful links
-
-- [IntelliJ Platform SDK Plugin SDK][docs]
-- [IntelliJ Platform Gradle Plugin Documentation][docs:intellij-platform-gradle-plugin-docs]
-- [IntelliJ Platform Explorer][jb:ipe]
-- [JetBrains Marketplace Quality Guidelines][jb:quality-guidelines]
-- [IntelliJ Platform UI Guidelines][jb:ui-guidelines]
-- [JetBrains Marketplace Paid Plugins][jb:paid-plugins]
-- [IntelliJ SDK Code Samples][gh:code-samples]
-
-[docs]: https://plugins.jetbrains.com/docs/intellij
-[docs:plugin.xml]: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html?from=IJPluginReadmeFile
-[docs:publishing]: https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginReadmeFile
-[docs:intellij-platform-gradle-plugin-docs]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html?from=IJPluginReadmeFile
-[docs:intellij-platform-gradle-plugin-runIde]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-tasks.html?from=IJPluginReadmeFile#runIde
-[docs:intellij-platform-gradle-plugin-verifyPlugin]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-tasks.html?from=IJPluginReadmeFile#verifyPlugin
-[docs:logo]: https://plugins.jetbrains.com/docs/intellij/plugin-icon-file.html?from=IJPluginReadmeFile
-[docs:target-version]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html?from=IJPluginReadmeFile#target-versions
-[docs:testing]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html?from=IJPluginReadmeFile#testing
-
-[file:build.gradle.kts]: ./build.gradle.kts
-[file:CHANGELOG.md]: ./CHANGELOG.md
-[file:gradle.properties]: ./gradle.properties
-[file:plugin.xml]: ./src/main/resources/META-INF/plugin.xml
-
-[gh:code-samples]: https://github.com/JetBrains/intellij-sdk-code-samples
-
-[gradle:lifecycle-tasks]: https://docs.gradle.org/current/userguide/java_plugin.html#lifecycle_tasks
-
-[jb:github]: https://github.com/JetBrains/.github/blob/main/profile/README.md
-[jb:forum]: https://platform.jetbrains.com/
-[jb:quality-guidelines]: https://plugins.jetbrains.com/docs/marketplace/quality-guidelines.html
-[jb:paid-plugins]: https://plugins.jetbrains.com/docs/marketplace/paid-plugins-marketplace.html
-[jb:ipe]: https://jb.gg/ipe
-[jb:ui-guidelines]: https://jetbrains.github.io/ui
+- O mascote das classes é inspirado no **Duke**, mascote do Java.
+- Os ícones do Gradle, do Maven, do Spring e do Docker são inspirados nos logos dessas ferramentas, que são marcas de seus respectivos donos.
+- Cores da paleta [Catppuccin](https://github.com/catppuccin/catppuccin) (licença MIT).

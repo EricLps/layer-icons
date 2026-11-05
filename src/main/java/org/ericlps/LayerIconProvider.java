@@ -101,6 +101,30 @@ public class LayerIconProvider extends IconProvider {
 
     private static final Icon GITIGNORE_ICON = IconLoader.getIcon("/icons/file-gitignore.svg", LayerIconProvider.class);
 
+    private static final Icon SPRING_ICON = IconLoader.getIcon("/icons/file-spring.svg", LayerIconProvider.class);
+
+    private static final Icon DOCKER_ICON = IconLoader.getIcon("/icons/file-docker.svg", LayerIconProvider.class);
+
+    private static final Icon YAML_ICON = IconLoader.getIcon("/icons/file-yaml.svg", LayerIconProvider.class);
+
+    private static final Icon SQL_ICON = IconLoader.getIcon("/icons/file-sql.svg", LayerIconProvider.class);
+
+    private static final Icon ENV_ICON = IconLoader.getIcon("/icons/file-env.svg", LayerIconProvider.class);
+
+    private static final Icon JSON_ICON = IconLoader.getIcon("/icons/file-json.svg", LayerIconProvider.class);
+
+    private static final Icon XML_ICON = IconLoader.getIcon("/icons/file-xml.svg", LayerIconProvider.class);
+
+    private static final Icon PROPERTIES_ICON = IconLoader.getIcon("/icons/file-properties.svg", LayerIconProvider.class);
+
+    private static final Icon IML_ICON = IconLoader.getIcon("/icons/file-iml.svg", LayerIconProvider.class);
+
+    private static final Icon JAR_ICON = IconLoader.getIcon("/icons/file-jar.svg", LayerIconProvider.class);
+
+    private static final Icon LICENSE_ICON = IconLoader.getIcon("/icons/file-license.svg", LayerIconProvider.class);
+
+    private static final Icon TEXT_ICON = IconLoader.getIcon("/icons/file-text.svg", LayerIconProvider.class);
+
     private static final Map<String, Icon> ICONE_POR_ARQUIVO = Map.ofEntries(
             Map.entry("build.gradle",              GRADLE_ICON),
             Map.entry("build.gradle.kts",          GRADLE_ICON),
@@ -114,14 +138,35 @@ public class LayerIconProvider extends IconProvider {
             Map.entry("mvnw",                      MAVEN_ICON),
             Map.entry("mvnw.cmd",                  MAVEN_ICON),
             Map.entry("maven-wrapper.properties",  MAVEN_ICON),
-            Map.entry(".gitignore",                GITIGNORE_ICON)
+            Map.entry(".gitignore",                GITIGNORE_ICON),
+            Map.entry("dockerfile",                DOCKER_ICON),
+            Map.entry(".dockerignore",             DOCKER_ICON),
+            Map.entry("docker-compose.yml",        DOCKER_ICON),
+            Map.entry("docker-compose.yaml",       DOCKER_ICON),
+            Map.entry("compose.yml",               DOCKER_ICON),
+            Map.entry("compose.yaml",              DOCKER_ICON),
+            Map.entry("license",                   LICENSE_ICON),
+            Map.entry("license.md",                LICENSE_ICON),
+            Map.entry("license.txt",               LICENSE_ICON)
     );
 
     private static final Map<String, Icon> ICONE_POR_EXTENSAO = Map.ofEntries(
             Map.entry("bat", BAT_ICON),
             Map.entry("cmd", BAT_ICON),
             Map.entry("md", MARKDOWN_ICON),
-            Map.entry("markdown", MARKDOWN_ICON)
+            Map.entry("markdown", MARKDOWN_ICON),
+            Map.entry("dockerfile", DOCKER_ICON),
+            Map.entry("yml", YAML_ICON),
+            Map.entry("yaml", YAML_ICON),
+            Map.entry("sql", SQL_ICON),
+            Map.entry("json", JSON_ICON),
+            Map.entry("xml", XML_ICON),
+            Map.entry("properties", PROPERTIES_ICON),
+            Map.entry("iml", IML_ICON),
+            Map.entry("jar", JAR_ICON),
+            Map.entry("war", JAR_ICON),
+            Map.entry("txt", TEXT_ICON),
+            Map.entry("log", TEXT_ICON)
     );
 
     @Override
@@ -200,11 +245,25 @@ public class LayerIconProvider extends IconProvider {
             return icone;
         }
 
+        if (ehConfiguracaoDoSpring(nome)) {
+            return SPRING_ICON;
+        }
+
+        if (nome.equals(".env") || nome.startsWith(".env.")) {
+            return ENV_ICON;
+        }
+
         int ponto = nome.lastIndexOf('.');
         if (ponto < 0) {
             return null;
         }
         return ICONE_POR_EXTENSAO.get(nome.substring(ponto + 1));
+    }
+
+    private boolean ehConfiguracaoDoSpring(String nome) {
+        boolean prefixo = nome.startsWith("application") || nome.startsWith("bootstrap");
+        boolean extensao = nome.endsWith(".properties") || nome.endsWith(".yml") || nome.endsWith(".yaml");
+        return prefixo && extensao;
     }
 
 }
