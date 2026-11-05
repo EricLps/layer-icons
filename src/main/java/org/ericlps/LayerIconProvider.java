@@ -4,6 +4,7 @@ import com.intellij.ide.IconProvider;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.util.InheritanceUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,6 +20,10 @@ public class LayerIconProvider extends IconProvider {
 
     private static final Icon RECORD_ICON = IconLoader.getIcon("/icons/record.svg", LayerIconProvider.class);
 
+    private static final Icon ANNOTATION_ICON = IconLoader.getIcon("/icons/annotation.svg", LayerIconProvider.class);
+
+    private static final Icon EXCEPTION_ICON = IconLoader.getIcon("/icons/exception.svg", LayerIconProvider.class);
+
     @Override
     public @Nullable Icon getIcon(@NotNull PsiElement element, int flags) {
 
@@ -28,9 +33,17 @@ public class LayerIconProvider extends IconProvider {
 
                 return ENUM_ICON;
 
+            } else if (psiClass.isAnnotationType()) {
+
+                return ANNOTATION_ICON;
+
             } else if (psiClass.isInterface()) {
 
                 return INTERFACE_ICON;
+
+            } else if (InheritanceUtil.isInheritor(psiClass, "java.lang.Throwable")) {
+
+                return EXCEPTION_ICON;
 
             } else if (psiClass.isRecord()) {
 
