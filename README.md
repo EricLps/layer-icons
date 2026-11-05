@@ -7,7 +7,8 @@ Cada classe ganha um mascote que mostra **o que ela é** (class, interface, reco
 ## No IntelliJ
 
 <!-- Salve o print do IntelliJ em docs/images/intellij.png -->
-![Layer Icons no IntelliJ](docs/images/intellij.png)
+![Layer Icons no IntelliJ](<img width="524" height="947" alt="image" src="https://github.com/user-attachments/assets/0678b5a3-bf5c-4380-a2f6-6c7fac73cfa2"/>
+)
 
 ## Galeria
 
