@@ -5,6 +5,7 @@ import com.intellij.openapi.util.IconLoader;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.InheritanceUtil;
 import com.intellij.ui.LayeredIcon;
 import org.jetbrains.annotations.NotNull;
@@ -73,7 +74,6 @@ public class LayerIconProvider extends IconProvider {
     private static final Icon FOLDER_ICON =
             IconLoader.getIcon("/icons/folder.svg", LayerIconProvider.class);
 
-    // chaves em minúsculas: a comparação ignora maiúsculas
     private static final Map<String, Icon> SELO_POR_PASTA = Map.ofEntries(
             Map.entry("src",        SRC_BADGE),
             Map.entry("resources",  RESOURCES_BADGE),
@@ -91,6 +91,39 @@ public class LayerIconProvider extends IconProvider {
             Map.entry("exceptions",EXCEPTION_BADGE)
     );
 
+    private static final Icon GRADLE_ICON = IconLoader.getIcon("/icons/file-gradle.svg", LayerIconProvider.class);
+
+    private static final Icon MAVEN_ICON = IconLoader.getIcon("/icons/file-maven.svg", LayerIconProvider.class);
+
+    private static final Icon BAT_ICON = IconLoader.getIcon("/icons/file-bat.svg", LayerIconProvider.class);
+
+    private static final Icon MARKDOWN_ICON = IconLoader.getIcon("/icons/file-markdown.svg", LayerIconProvider.class);
+
+    private static final Icon GITIGNORE_ICON = IconLoader.getIcon("/icons/file-gitignore.svg", LayerIconProvider.class);
+
+    private static final Map<String, Icon> ICONE_POR_ARQUIVO = Map.ofEntries(
+            Map.entry("build.gradle",              GRADLE_ICON),
+            Map.entry("build.gradle.kts",          GRADLE_ICON),
+            Map.entry("settings.gradle",           GRADLE_ICON),
+            Map.entry("settings.gradle.kts",       GRADLE_ICON),
+            Map.entry("gradle.properties",         GRADLE_ICON),
+            Map.entry("gradle-wrapper.properties", GRADLE_ICON),
+            Map.entry("gradlew",                   GRADLE_ICON),
+            Map.entry("gradlew.bat",               GRADLE_ICON),
+            Map.entry("pom.xml",                   MAVEN_ICON),
+            Map.entry("mvnw",                      MAVEN_ICON),
+            Map.entry("mvnw.cmd",                  MAVEN_ICON),
+            Map.entry("maven-wrapper.properties",  MAVEN_ICON),
+            Map.entry(".gitignore",                GITIGNORE_ICON)
+    );
+
+    private static final Map<String, Icon> ICONE_POR_EXTENSAO = Map.ofEntries(
+            Map.entry("bat", BAT_ICON),
+            Map.entry("cmd", BAT_ICON),
+            Map.entry("md", MARKDOWN_ICON),
+            Map.entry("markdown", MARKDOWN_ICON)
+    );
+
     @Override
     public @Nullable Icon getIcon(@NotNull PsiElement element, int flags) {
 
@@ -100,6 +133,10 @@ public class LayerIconProvider extends IconProvider {
 
         if (element instanceof PsiDirectory pasta) {
             return iconeDePasta(pasta);
+        }
+
+        if (element instanceof PsiFile arquivo) {
+            return iconeDeArquivo(arquivo);
         }
 
         return null;
@@ -153,6 +190,21 @@ public class LayerIconProvider extends IconProvider {
             return FOLDER_ICON;
         }
         return new LayeredIcon(FOLDER_ICON, selo);
+    }
+
+    private @Nullable Icon iconeDeArquivo(PsiFile arquivo) {
+        String nome = arquivo.getName().toLowerCase();
+
+        Icon icone = ICONE_POR_ARQUIVO.get(nome);
+        if (icone != null) {
+            return icone;
+        }
+
+        int ponto = nome.lastIndexOf('.');
+        if (ponto < 0) {
+            return null;
+        }
+        return ICONE_POR_EXTENSAO.get(nome.substring(ponto + 1));
     }
 
 }
