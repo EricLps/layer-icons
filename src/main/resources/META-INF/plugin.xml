@@ -6,17 +6,21 @@
     <vendor>ericlps</vendor>
 
     <description><![CDATA[
-        Ícones para projetos Java no estilo Catppuccin.<br>
-        O tipo da classe (class, interface, record, enum, anotação e exception) define o mascote,
-        e a camada indicada pelo nome (Repository, Service, Controller, DTO, Entity, Config e Test)
-        aparece como um selo na mão dele.<br>
-        Inclui ícones para pastas e para arquivos comuns, como Gradle, Maven, Docker, Spring e YAML.
-        ]]></description>
+    Icons for Java and Spring projects, inspired by the Catppuccin palette.<br><br>
+    <b>Classes</b>: a mascote shows what the class <i>is</i> (class, interface, record, enum,
+    annotation or exception), holding a badge that shows its <i>layer</i>, based on the name suffix:
+    Repository, Service, Controller, DTO, Entity/Model, Config/Configuration and Test.<br><br>
+    <b>Folders</b>: outlined folders with layer badges (src, resources, controller, service,
+    repository, dto, entity, config, test, exception and more).<br><br>
+    <b>Files</b>: Gradle, Maven, Spring configuration, Docker, YAML, SQL, .env, JSON, XML,
+    .properties, .iml, .jar/.war, LICENSE, Markdown, .txt/.log, .bat/.cmd and .gitignore.<br><br>
+    Every icon has light and dark theme versions.
+    ]]></description>
 
     <depends>com.intellij.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-<!--        Definir a implementaçao, onde o plugin vai encontrar nossos icones. -->
+        <!--        Definir a implementaçao, onde o plugin vai encontrar nossos icones. -->
         <iconProvider implementation="org.ericlps.LayerIconProvider" order="first"/>
     </extensions>
 
