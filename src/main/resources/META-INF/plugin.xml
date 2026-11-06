@@ -7,7 +7,7 @@
 
     <description><![CDATA[
     Icons for Java and Spring projects, inspired by the Catppuccin palette.<br><br>
-    <b>Classes</b>: a mascote shows what the class <i>is</i> (class, interface, record, enum,
+    <b>Classes</b>: a mascot shows what the class <i>is</i> (class, interface, record, enum,
     annotation or exception), holding a badge that shows its <i>layer</i>, based on the name suffix:
     Repository, Service, Controller, DTO, Entity/Model, Config/Configuration and Test.<br><br>
     <b>Folders</b>: outlined folders with layer badges (src, resources, controller, service,
