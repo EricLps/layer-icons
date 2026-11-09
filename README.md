@@ -1,5 +1,9 @@
 # Layer Icons
 
+[![Version](https://img.shields.io/jetbrains/plugin/v/35847?cacheSeconds=300)](https://plugins.jetbrains.com/plugin/35847-layer-icons)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/35847?cacheSeconds=300)](https://plugins.jetbrains.com/plugin/35847-layer-icons)
+[![Rating](https://img.shields.io/jetbrains/plugin/r/stars/35847?cacheSeconds=300)](https://plugins.jetbrains.com/plugin/35847-layer-icons)
+
 Plugin de ícones para o IntelliJ IDEA, pensado para projetos Java e Spring, no estilo da paleta [Catppuccin](https://catppuccin.com).
 
 Cada classe ganha um mascote que mostra **o que ela é** (class, interface, record, enum, anotação ou exception) segurando um selo que mostra **qual camada ela representa** (repository, service, controller, DTO, entity, config ou test). Pastas e arquivos comuns de projeto também ganham ícones próprios.
